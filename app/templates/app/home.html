@@ -1,0 +1,317 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Uzbekistan Volunteering | Comprehensive Hub</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #00eaff;
+            --secondary: #00ffa6;
+            --dark-bg: #080a0f;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        /* --- BACKGROUND --- */
+        .full-bg {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(8, 10, 15, 0.9), rgba(8, 10, 15, 0.95)),
+                        url("{% static 'img/b.jpg' %}") no-repeat center center;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        /* --- HERO SECTION --- */
+        #home {
+            height: 90vh; /* Bo'sh joyni kamaytirish uchun */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .minimal-logo {
+            width: 90px; height: 90px;
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+        .minimal-logo img { width: 65%; object-fit: contain; }
+
+        .typing-text {
+            font-size: clamp(22px, 5vw, 48px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3s steps(40, end) forwards, blink 0.8s infinite;
+        }
+
+        @keyframes typing { from { width: 0; } to { width: 100%; } }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        /* --- STATS BAR --- */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 1100px;
+            margin: 40px 0;
+        }
+        .stat-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        .stat-item h4 { color: var(--primary); font-size: 24px; }
+        .stat-item p { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+
+        /* --- SECTIONS GENERAL --- */
+        section { padding: 60px 10%; }
+        .section-header { margin-bottom: 30px; }
+        .section-header h2 { font-size: 28px; font-weight: 700; display: flex; align-items: center; gap: 15px; }
+        .section-header h2::after { content: ''; height: 2px; flex-grow: 1; background: var(--glass-border); }
+
+        /* --- ABOUT (DETAILED) --- */
+        .detailed-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* --- COURSES (COMPREHENSIVE) --- */
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .course-table th, .course-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .course-table th { background: rgba(255,255,255,0.05); color: var(--primary); }
+
+        /* --- GALLERY --- */
+        .gallery-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .gallery-compact img {
+            width: 100%; height: 150px; object-fit: cover;
+            border-radius: 8px; filter: grayscale(0.5); transition: 0.3s;
+        }
+        .gallery-compact img:hover { filter: grayscale(0); transform: scale(1.02); }
+
+        /* --- CONTACT & CREATOR --- */
+        .creator-card {
+            display: flex;
+            gap: 30px;
+            background: linear-gradient(to right, var(--card-bg), transparent);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            align-items: center;
+        }
+        .creator-img-wrap { width: 180px; flex-shrink: 0; }
+        .creator-img-wrap img {
+            width: 100%; border-radius: 15px; border: 2px solid var(--glass-border);
+        }
+        .contact-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .contact-box {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px;
+            text-decoration: none; color: #ccc; font-size: 14px;
+        }
+        .contact-box i { color: var(--primary); }
+
+        @media (max-width: 800px) {
+            .stats-container { grid-template-columns: repeat(2, 1fr); }
+            .detailed-grid { grid-template-columns: 1fr; }
+            .creator-card { flex-direction: column; text-align: center; }
+            .contact-links { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="full-bg"></div>
+
+    <section id="home">
+        <div class="minimal-logo">
+            <img src="{% static 'img/nu.png' %}" alt="NU">
+        </div>
+        <h1 class="typing-text">New Uzbekistan Volunteering</h1>
+        <p style="margin-top: 15px; max-width: 700px; color: #aaa;">
+            Farg'ona shahridagi eng faol ko'ngillilar harakati. Biz yoshlarga zamonaviy bilimlarni mutlaqo bepul va tizimli ravishda yetkazib beramiz.
+        </p>
+
+        <div class="stats-container">
+            <div class="stat-item"><h4>100+</h4><p>O'quvchilar</p></div>
+            <div class="stat-item"><h4>5+</h4><p>Mentorlar</p></div>
+            <div class="stat-item"><h4>3</h4><p>Asosiy yo'nalish</p></div>
+            <div class="stat-item"><h4>24/7</h4><p>Yordam</p></div>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+            <a href="#about" class="stat-item" style="text-decoration: none; padding: 10px 30px; background: var(--primary); color: #000; font-weight: 600;">Boshlash</a>
+            <a href="#contact" class="stat-item" style="text-decoration: none; padding: 10px 30px; border: 1px solid #fff; color: #fff;">Bog'lanish</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="section-header">
+            <h2>Biz haqimizda batafsil</h2>
+        </div>
+        <div class="detailed-grid">
+            <div class="feature-list">
+                <div class="feature-card">
+                    <h5><i class="fas fa-check-circle"></i> Tizimli darslar</h5>
+                    <p style="font-size: 12px; color: #888; margin-top: 5px;">Har bir dars maxsus o'quv rejasi asosida olib boriladi.</p>
+                </div>
+                <div class="feature-card">
+                    <h5><i class="fas fa-check-circle"></i> Volunteer Community</h5>
+                    <p style="font-size: 12px; color: #888; margin-top: 5px;">Siz nafaqat bilim olasiz, balki katta jamoaning a'zosiga aylanasiz.</p>
+                </div>
+                <div class="feature-card">
+                    <h5><i class="fas fa-check-circle"></i> Sharoitlar</h5>
+                    <p style="font-size: 12px; color: #888; margin-top: 5px;">Darslar qulay va barcha jihozlar bilan ta'minlangan xonalarda bo'ladi.</p>
+                </div>
+                <div class="feature-card">
+                    <h5><i class="fas fa-check-circle"></i> Sertifikat</h5>
+                    <p style="font-size: 12px; color: #888; margin-top: 5px;">Kursni muvaffaqiyatli tamomlaganlarga maxsus sertifikat beriladi.</p>
+                </div>
+            </div>
+            <div style="background: var(--card-bg); padding: 25px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                <h4 style="color: var(--secondary);">Bizning Maqsad</h4>
+                <p style="font-size: 14px; margin-top: 10px; color: #bbb;">
+                    Yurtimiz yoshlarini zamonaviy kasblarga yo'naltirish, ularning intellektual salohiyatini oshirish va ijtimoiy loyihalarda ko'ngilli bo'lish madaniyatini shakllantirishdir.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="courses">
+        <div class="section-header">
+            <h2>O'quv Yo'nalishlari</h2>
+        </div>
+        <table class="course-table">
+            <thead>
+                <tr>
+                    <th>Fan nomi</th>
+                    <th>Dars yo'nalishi</th>
+                    <th>Davomiyligi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Ingliz tili</b></td>
+                    <td>General English, Beginner skills, Speaking training</td>
+                    <td>2-3 oy</td>
+                </tr>
+                <tr>
+                    <td><b>Rus tili</b></td>
+                    <td>Grammatika, So'zlashuv, Kitobxonlik</td>
+                    <td>1-2 oy</td>
+                </tr>
+                <tr>
+                    <td><b>Matematika</b></td>
+                    <td>Boshlang'ich hisob-kitob, Mantiqiy misollar</td>
+                    <td>1 oy</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="gallery">
+        <div class="section-header">
+            <h2>Mashg'ulotlardan lavhalar</h2>
+        </div>
+        <div class="gallery-compact">
+            <img src="{% static 'img/english.jpg' %}" alt="G1">
+            <img src="{% static 'img/russian.jpg' %}" alt="G2">
+            <img src="{% static 'img/math.jpg' %}" alt="G3">
+            <img src="{% static 'img/other.jpg' %}" alt="G4">
+            <img src="{% static 'img/kalit.jpg' %}" alt="G5">
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-header">
+            <h2>Website Yaratuvchisi bilan bog'lanish</h2>
+        </div>
+        <div class="creator-card">
+            <div class="creator-img-wrap">
+                <img src="{% static 'img/mp.jpg' %}" alt="Creator">
+            </div>
+            <div class="creator-info">
+                <h3 style="color: var(--primary);">Loyiha Asoschisi</h3>
+                <p style="font-size: 14px; margin-top: 5px;">
+                    "Har bir kichik qadam katta natijalarga olib keladi. Biz yoshlar uchun eng yaxshisini ulashishdan to'xtamaymiz."
+                </p>
+                <div class="contact-links">
+                    <a href="https://t.me/NewUzbekistan_Nu" class="contact-box"><i class="fab fa-telegram-plane"></i> @NewUzbekistan_Nu</a>
+                    <a href="tel:+998911291440" class="contact-box"><i class="fas fa-phone-alt"></i> +998 91 129 14 40</a>
+                    <div class="contact-box"><i class="fas fa-map-marker-alt"></i> Farg'ona, Cheksho'ra MFY</div>
+                    <div class="contact-box"><i class="fas fa-envelope"></i> aazamov621@gmail.com</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 20px; font-size: 12px; opacity: 0.5;">
+        &copy; 2024 New Uzbekistan Volunteering. Barcha huquqlar himoyalangan.
+    </footer>
+
+    <a href="#home" class="to-top"><i class="fas fa-chevron-up"></i></a>
+
+</body>
+</html>
