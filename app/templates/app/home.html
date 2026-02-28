@@ -40,7 +40,7 @@
 
         /* --- HERO SECTION --- */
         #home {
-            height: 90vh; /* Bo'sh joyni kamaytirish uchun */
+            height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -173,6 +173,78 @@
         }
         .contact-box i { color: var(--primary); }
 
+        /* --- NEW COMMENT SECTION STYLES --- */
+        .comment-section {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+        .comment-input-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .comment-input-wrap input, .comment-input-wrap textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 15px;
+            color: #fff;
+            font-family: inherit;
+            outline: none;
+        }
+        .comment-input-wrap input:focus, .comment-input-wrap textarea:focus {
+            border-color: var(--primary);
+        }
+        .btn-submit {
+            background: var(--primary);
+            color: #080a0f;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            align-self: flex-start;
+        }
+        .btn-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 234, 255, 0.4);
+        }
+
+        .comment-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 4px solid var(--secondary);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            animation: slideIn 0.5s ease;
+        }
+        .comment-author { color: var(--primary); font-weight: 600; font-size: 14px; margin-bottom: 5px; display: block; }
+        .comment-text { font-size: 15px; color: #ccc; }
+
+        /* SUCCESS MESSAGE POPUP */
+        .success-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary);
+            color: #080a0f;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 800;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 255, 166, 0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         @media (max-width: 800px) {
             .stats-container { grid-template-columns: repeat(2, 1fr); }
             .detailed-grid { grid-template-columns: 1fr; }
@@ -185,11 +257,15 @@
 
     <div class="full-bg"></div>
 
+    <div id="successMessage" class="success-popup">
+        <i class="fas fa-check-circle"></i> Izoh muvaffaqiyatli yuborildi!
+    </div>
+
     <section id="home">
         <div class="minimal-logo">
             <img src="{% static 'img/nu.png' %}" alt="NU">
         </div>
-        <h1 class="typing-text">New Uzbekistan Volunteering</h1>
+        <h1 class="typing-text">New Uzbekistan loyihasi</h1>
         <p style="margin-top: 15px; max-width: 700px; color: #aaa;">
             Farg'ona shahridagi eng faol ko'ngillilar harakati. Biz yoshlarga zamonaviy bilimlarni mutlaqo bepul va tizimli ravishda yetkazib beramiz.
         </p>
@@ -305,6 +381,33 @@
                 </div>
             </div>
         </div>
+
+        <div class="comment-section" id="comment-area">
+            <h3 style="margin-bottom: 20px; color: var(--primary);">Izoh qoldiring</h3>
+            <form action="{% url 'add_comment' %}" method="POST" id="commentForm">
+                {% csrf_token %}
+                <div class="comment-input-wrap">
+                    <input type="text" name="name" placeholder="Ismingiz" required>
+                    <textarea name="body" rows="4" placeholder="Fikringizni yozing..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">YUBORISH</button>
+            </form>
+
+            <div style="margin-top: 50px;">
+                <h3 style="margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Barcha izohlar</h3>
+                <div id="commentList">
+                    {% for comment in comments %}
+                    <div class="comment-card">
+                        <span class="comment-author">{{ comment.name }}</span>
+                        <p class="comment-text">{{ comment.body }}</p>
+                        <small style="font-size: 10px; color: #555;">{{ comment.created_at|date:"d-M, Y" }}</small>
+                    </div>
+                    {% empty %}
+                    <p style="color: #666;">Hozircha izohlar yo'q.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer style="text-align: center; padding: 20px; font-size: 12px; opacity: 0.5;">
@@ -312,6 +415,19 @@
     </footer>
 
     <a href="#home" class="to-top"><i class="fas fa-chevron-up"></i></a>
+
+    <script>
+const urlParams = new URLSearchParams(window.location.search);
+
+if (urlParams.get("success") === "1") {
+    const popup = document.getElementById('successMessage');
+    popup.style.display = 'block';
+
+    setTimeout(() => {
+        popup.style.display = 'none';
+    }, 4000);
+}
+</script>
 
 </body>
 </html>
